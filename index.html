@@ -3,829 +3,806 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tliawwf的主页</title>
+  <title>我的小世界</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;600;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
   <style>
-    /* ========== 基础变量 ========== */
     :root {
-      --bg: #0a0a0a;
-      --surface: #141414;
-      --surface-raised: #1e1e1e;
-      --accent: #e8c547;
-      --accent-dim: #c4a535;
-      --text-primary: #f0ece4;
-      --text-muted: #6b6560;
-      --text-dim: #3d3830;
-      --border: #2a2520;
-      --font-display: 'Noto Serif SC', serif;
-      --font-mono: 'Space Mono', monospace;
-      --max-width: 1200px;
+      --bg: #fdf6ec;
+      --bg-warm: #f5ead6;
+      --surface: #fffdf8;
+      --accent: #e8634a;
+      --accent-2: #3a7d6e;
+      --accent-3: #d4a853;
+      --text: #2c2420;
+      --text-muted: #8a7e72;
+      --paper: #fff9f0;
+      --shadow: rgba(44, 36, 32, 0.08);
+      --radius: 18px;
     }
 
-    /* ========== 重置 ========== */
-    *, *::before, *::after {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: var(--font-mono);
+      font-family: 'ZCOOL XiaoWei', serif;
       background: var(--bg);
-      color: var(--text-primary);
-      line-height: 1.7;
+      color: var(--text);
+      min-height: 100vh;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
+      position: relative;
     }
 
-    ::selection {
-      background: var(--accent);
-      color: var(--bg);
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: opacity 0.2s ease;
-    }
-    a:hover { opacity: 0.75; }
-
-    /* ========== 纹理覆盖层 ========== */
+    /* --- Grain overlay --- */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
       opacity: 0.03;
       pointer-events: none;
       z-index: 9999;
     }
 
-    /* ========== 导航 ========== */
-    nav {
+    /* --- Floating doodles --- */
+    .doodle {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.5rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(10, 10, 10, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      transition: transform 0.3s ease;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.12;
+      font-size: 2rem;
+      animation: floatDoodle 8s ease-in-out infinite;
+    }
+    .doodle:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+    .doodle:nth-child(2) { top: 30%; right: 8%; animation-delay: 2s; font-size: 1.6rem; }
+    .doodle:nth-child(3) { top: 60%; left: 3%; animation-delay: 4s; font-size: 2.4rem; }
+    .doodle:nth-child(4) { top: 80%; right: 5%; animation-delay: 1s; }
+    .doodle:nth-child(5) { top: 15%; right: 15%; animation-delay: 3s; font-size: 1.8rem; }
+    .doodle:nth-child(6) { top: 50%; left: 8%; animation-delay: 5s; font-size: 1.5rem; }
+
+    @keyframes floatDoodle {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-18px) rotate(8deg); }
     }
 
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 900;
-      color: var(--text-primary);
-      letter-spacing: -0.02em;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-      position: relative;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0;
-      width: 0; height: 1px;
-      background: var(--accent);
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--text-primary);
-      opacity: 1;
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    /* ========== HERO 区域 ========== */
+    /* --- Hero --- */
     .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: center;
-      padding: 0 3rem;
-      max-width: var(--max-width);
-      margin: 0 auto;
+      text-align: center;
+      padding: 2rem;
       position: relative;
     }
 
-    .hero-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.25em;
-      color: var(--accent);
-      margin-bottom: 2rem;
+    .hero-sticker {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 32px rgba(232, 99, 74, 0.25);
+      animation: bounceIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       opacity: 0;
-      animation: fadeUp 0.8s ease 0.2s forwards;
+      position: relative;
+    }
+    .hero-sticker::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px dashed var(--accent-3);
+      opacity: 0.4;
+      animation: spin 20s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+      60% { transform: scale(1.1) rotate(3deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
     }
 
     .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      color: var(--text-primary);
+      font-family: 'Ma Shan Zheng', cursive;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 1.2;
+      color: var(--text);
       opacity: 0;
-      animation: fadeUp 0.8s ease 0.4s forwards;
+      animation: fadeUp 0.8s ease 0.3s forwards;
     }
 
-    .hero h1 .accent {
+    .hero h1 span {
       color: var(--accent);
-      display: inline-block;
       position: relative;
     }
+    .hero h1 span::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: -4px;
+      right: -4px;
+      height: 10px;
+      background: var(--accent-3);
+      opacity: 0.25;
+      border-radius: 4px;
+      z-index: -1;
+    }
 
-    .hero-subtitle {
-      font-size: 1rem;
+    .hero p {
+      font-size: 1.15rem;
       color: var(--text-muted);
-      max-width: 500px;
-      margin-top: 2rem;
+      margin-top: 1rem;
+      max-width: 420px;
+      line-height: 1.8;
       opacity: 0;
       animation: fadeUp 0.8s ease 0.6s forwards;
     }
 
-    .hero-scroll {
+    .scroll-hint {
       position: absolute;
-      bottom: 3rem;
-      left: 3rem;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--text-dim);
-      writing-mode: vertical-rl;
+      bottom: 2.5rem;
       opacity: 0;
       animation: fadeUp 0.8s ease 1s forwards;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .scroll-hint .arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      transform: rotate(45deg);
+      animation: bob 1.5s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50% { transform: rotate(45deg) translateY(6px); }
     }
 
-    .hero-scroll::after {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 40px;
-      background: var(--text-dim);
-      margin-top: 0.75rem;
-      animation: scrollLine 2s ease infinite;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ========== 装饰数字 ========== */
-    .section-number {
-      font-family: var(--font-display);
-      font-size: 8rem;
-      font-weight: 900;
-      color: var(--text-dim);
-      opacity: 0.15;
-      position: absolute;
-      right: 3rem;
-      top: -2rem;
-      line-height: 1;
-      user-select: none;
+    /* --- Navigation tabs --- */
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 246, 236, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(44, 36, 32, 0.06);
+      padding: 0.8rem 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .nav-bar a {
+      text-decoration: none;
+      color: var(--text-muted);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .nav-bar a:hover {
+      color: var(--accent);
+      background: rgba(232, 99, 74, 0.08);
     }
 
-    /* ========== 通用区块 ========== */
-    section {
-      padding: 8rem 3rem;
-      max-width: var(--max-width);
+    /* --- Section layout --- */
+    .section {
+      max-width: 960px;
       margin: 0 auto;
+      padding: 4rem 1.5rem;
       position: relative;
     }
 
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      margin-bottom: 4rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.5rem;
-    }
-
-    .section-header h2 {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-
-    .section-header .tag {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 0.25rem 0.75rem;
-      border-radius: 2px;
-    }
-
-    /* ========== 关于我 ========== */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .about-avatar {
-      width: 100%;
-      aspect-ratio: 3/4;
-      background: var(--surface);
-      border: 1px solid var(--border);
+    .section-title {
+      font-family: 'Zhi Mang Xing', cursive;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-      color: var(--text-dim);
+      gap: 0.6rem;
+    }
+    .section-title .emoji { font-style: normal; }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* --- About card --- */
+    .about-card {
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      box-shadow: 0 2px 24px var(--shadow);
       position: relative;
       overflow: hidden;
     }
-
-    .about-avatar::after {
-      content: 'YOUR PHOTO';
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+    .about-card::before {
+      content: '';
       position: absolute;
-      bottom: 1.5rem;
-      color: var(--text-dim);
+      top: -40px;
+      right: -40px;
+      width: 120px;
+      height: 120px;
+      background: var(--accent);
+      opacity: 0.06;
+      border-radius: 50%;
     }
-
-    .about-text p {
-      margin-bottom: 1.5rem;
+    .about-left h3 {
+      font-family: 'Ma Shan Zheng', cursive;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    .about-left p {
+      line-height: 2;
       color: var(--text-muted);
       font-size: 0.95rem;
     }
-
-    .about-text p:first-child {
-      font-size: 1.15rem;
-      color: var(--text-primary);
+    .about-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
     }
-
-    .about-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .stat-item .stat-number {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: var(--accent);
-      line-height: 1;
-    }
-
-    .stat-item .stat-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-      margin-top: 0.5rem;
-    }
-
-    /* ========== 技能 ========== */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .skill-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 2rem;
-      transition: border-color 0.3s ease, transform 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .skill-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-
-    .skill-card:hover {
-      border-color: var(--accent-dim);
-      transform: translateY(-4px);
-    }
-
-    .skill-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .skill-icon {
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .skill-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-    }
-
-    .skill-card p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-    }
-
-    .skill-tags {
+    .tag-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-top: 1.25rem;
     }
-
-    .skill-tags span {
-      font-size: 0.65rem;
+    .tag {
+      padding: 0.35rem 0.9rem;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      border: 1.5px solid transparent;
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+    .tag:nth-child(1) { background: rgba(232, 99, 74, 0.1); color: var(--accent); border-color: rgba(232, 99, 74, 0.2); }
+    .tag:nth-child(2) { background: rgba(58, 125, 110, 0.1); color: var(--accent-2); border-color: rgba(58, 125, 110, 0.2); }
+    .tag:nth-child(3) { background: rgba(212, 168, 83, 0.12); color: #b08930; border-color: rgba(212, 168, 83, 0.2); }
+    .tag:nth-child(4) { background: rgba(120, 90, 160, 0.1); color: #785aa0; border-color: rgba(120, 90, 160, 0.2); }
+    .tag:nth-child(5) { background: rgba(70, 130, 180, 0.1); color: #4682b4; border-color: rgba(70, 130, 180, 0.2); }
+    .tag:nth-child(6) { background: rgba(200, 80, 120, 0.1); color: #c85078; border-color: rgba(200, 80, 120, 0.2); }
+    .about-right h4 {
+      font-size: 0.85rem;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      padding: 0.2rem 0.6rem;
-      border: 1px solid var(--border);
+      margin-top: 0.3rem;
+    }
+
+    /* --- Interests grid --- */
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+    .interest-card {
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      box-shadow: 0 2px 16px var(--shadow);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .interest-card:hover {
+      transform: translateY(-6px) rotate(-1deg);
+      box-shadow: 0 12px 40px rgba(44, 36, 32, 0.12);
+    }
+    .interest-card:nth-child(even):hover {
+      transform: translateY(-6px) rotate(1deg);
+    }
+    .interest-card .card-emoji {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+    .interest-card:hover .card-emoji {
+      transform: scale(1.2) rotate(-8deg);
+    }
+    .interest-card h3 {
+      font-family: 'Ma Shan Zheng', cursive;
+      font-size: 1.35rem;
+      margin-bottom: 0.4rem;
+    }
+    .interest-card p {
       color: var(--text-muted);
-      transition: border-color 0.2s ease, color 0.2s ease;
+      font-size: 0.88rem;
+      line-height: 1.7;
     }
-
-    .skill-card:hover .skill-tags span {
-      border-color: var(--accent-dim);
-      color: var(--accent);
+    .interest-card .card-corner {
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      opacity: 0.08;
     }
+    .interest-card:nth-child(1) .card-corner { background: var(--accent); }
+    .interest-card:nth-child(2) .card-corner { background: var(--accent-2); }
+    .interest-card:nth-child(3) .card-corner { background: var(--accent-3); }
+    .interest-card:nth-child(4) .card-corner { background: #785aa0; }
+    .interest-card:nth-child(5) .card-corner { background: #4682b4; }
+    .interest-card:nth-child(6) .card-corner { background: #c85078; }
 
-    /* ========== 项目作品 ========== */
-    .projects-list {
+    /* --- Playlist --- */
+    .playlist {
       display: flex;
       flex-direction: column;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      gap: 0.6rem;
     }
-
-    .project-item {
-      display: grid;
-      grid-template-columns: 80px 1fr auto;
+    .song {
+      display: flex;
       align-items: center;
-      gap: 2rem;
-      padding: 2rem 2.5rem;
-      background: var(--bg);
-      cursor: pointer;
-      transition: background 0.3s ease;
+      gap: 1rem;
+      padding: 1rem 1.4rem;
+      background: var(--paper);
+      border-radius: 14px;
+      box-shadow: 0 1px 8px var(--shadow);
+      transition: all 0.25s ease;
+      cursor: default;
     }
-
-    .project-item:hover {
-      background: var(--surface);
-    }
-
-    .project-index {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--text-dim);
-      transition: color 0.3s ease;
-    }
-
-    .project-item:hover .project-index {
-      color: var(--accent);
-    }
-
-    .project-info h3 {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.35rem;
-    }
-
-    .project-info p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .project-arrow {
-      font-size: 1.5rem;
-      color: var(--text-dim);
-      transition: color 0.3s ease, transform 0.3s ease;
-    }
-
-    .project-item:hover .project-arrow {
-      color: var(--accent);
+    .song:hover {
       transform: translateX(6px);
+      box-shadow: 0 4px 20px var(--shadow);
     }
-
-    /* ========== 联系方式 ========== */
-    .contact-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+    .song-num {
+      font-family: 'Zhi Mang Xing', cursive;
+      font-size: 1.6rem;
+      color: var(--accent);
+      min-width: 32px;
     }
-
-    .contact-text h3 {
-      font-family: var(--font-display);
-      font-size: 1.75rem;
+    .song-info {
+      flex: 1;
+    }
+    .song-info .name {
       font-weight: 600;
-      margin-bottom: 1.5rem;
-      line-height: 1.4;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
     }
-
-    .contact-text p {
+    .song-info .artist {
       color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 2rem;
+      font-size: 0.82rem;
     }
-
-    .contact-links {
+    .song-mood {
+      font-size: 1.4rem;
+    }
+    .song-bar {
+      width: 40px;
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      align-items: flex-end;
+      gap: 2px;
+      height: 20px;
+    }
+    .song-bar span {
+      width: 5px;
+      background: var(--accent);
+      border-radius: 2px;
+      animation: eq 0.8s ease-in-out infinite alternate;
+    }
+    .song:hover .song-bar span { animation-play-state: running; }
+    .song-bar span:nth-child(1) { height: 40%; animation-delay: 0s; }
+    .song-bar span:nth-child(2) { height: 80%; animation-delay: 0.15s; }
+    .song-bar span:nth-child(3) { height: 55%; animation-delay: 0.3s; }
+    @keyframes eq {
+      from { height: 20%; }
+      to { height: 100%; }
     }
 
-    .contact-link {
+    /* --- Fun facts marquee --- */
+    .facts-scroll {
+      overflow: hidden;
+      padding: 1rem 0;
+      margin: 0 -1.5rem;
+    }
+    .facts-track {
+      display: flex;
+      gap: 1.2rem;
+      animation: scroll 25s linear infinite;
+      width: max-content;
+    }
+    .facts-track:hover { animation-play-state: paused; }
+    @keyframes scroll {
+      to { transform: translateX(-50%); }
+    }
+    .fact-bubble {
+      flex-shrink: 0;
+      padding: 1rem 1.6rem;
+      background: var(--paper);
+      border-radius: 16px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      box-shadow: 0 2px 12px var(--shadow);
+      border: 1.5px solid rgba(44, 36, 32, 0.04);
       display: flex;
       align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s;
+    }
+    .fact-bubble:hover { transform: scale(1.05); }
+
+    /* --- Quote wall --- */
+    .quote-wall {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 1rem;
-      padding: 1.25rem 1.5rem;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      transition: border-color 0.3s ease, background 0.3s ease;
-      color: var(--text-primary);
     }
-
-    .contact-link:hover {
-      border-color: var(--accent);
-      background: var(--surface-raised);
-      opacity: 1;
-    }
-
-    .contact-link .link-icon {
-      font-size: 1.25rem;
-      width: 2rem;
-      text-align: center;
-    }
-
-    .contact-link .link-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
+    .quote {
+      background: var(--paper);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 16px var(--shadow);
+      position: relative;
+      font-size: 0.92rem;
+      line-height: 1.8;
       color: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+    .quote:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--shadow);
+    }
+    .quote::before {
+      content: '"';
+      position: absolute;
+      top: 8px;
+      left: 14px;
+      font-family: 'Ma Shan Zheng', cursive;
+      font-size: 3rem;
+      color: var(--accent);
+      opacity: 0.2;
+      line-height: 1;
+    }
+    .quote p {
+      margin-top: 0.5rem;
+    }
+    .quote-author {
+      display: block;
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--accent-2);
     }
 
-    .contact-link .link-value {
-      font-size: 0.9rem;
-      margin-top: 0.15rem;
-    }
-
-    /* ========== 页脚 ========== */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 3rem;
+    /* --- Footer --- */
+    .footer {
       text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
     }
-
-    footer p {
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+    .footer-hearts {
+      font-size: 1.4rem;
+      margin-bottom: 0.6rem;
+      animation: heartbeat 1.5s ease-in-out infinite;
     }
-
-    /* ========== 动画 ========== */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
     }
-
-    @keyframes scrollLine {
-      0%   { transform: scaleY(0); transform-origin: top; }
-      50%  { transform: scaleY(1); transform-origin: top; }
-      51%  { transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
+    .footer p { line-height: 1.8; }
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--accent);
+      transition: opacity 0.2s;
     }
+    .footer a:hover { opacity: 0.7; }
 
-    /* 滚动动画 */
+    /* --- Animated reveal on scroll --- */
     .reveal {
       opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(30px);
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* ========== 响应式 ========== */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1.5rem; }
-      .hero { padding: 0 1.5rem; }
-      .hero-scroll { display: none; }
-      section { padding: 5rem 1.5rem; }
-      .about-grid { grid-template-columns: 1fr; }
-      .about-avatar { max-width: 300px; }
-      .about-stats { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-      .contact-layout { grid-template-columns: 1fr; }
-      .project-item { grid-template-columns: 50px 1fr auto; gap: 1rem; padding: 1.5rem; }
-      .project-index { font-size: 1.5rem; }
-      .section-number { display: none; }
-    }
-
-    @media (max-width: 480px) {
-      .nav-links { gap: 1rem; }
-      .nav-links a { font-size: 0.65rem; }
-      .about-stats { grid-template-columns: 1fr; }
+    /* --- Responsive --- */
+    @media (max-width: 640px) {
+      .about-card {
+        grid-template-columns: 1fr;
+        padding: 1.8rem;
+      }
+      .section { padding: 3rem 1.2rem; }
+      .nav-bar { gap: 0.2rem; padding: 0.6rem 0.5rem; }
+      .nav-bar a { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ===== 导航 ===== -->
-  <nav>
-    <div class="nav-logo">Tliawwf</div>
-    <ul class="nav-links">
-      <li><a href="#about">关于</a></li>
-      <li><a href="#skills">技能</a></li>
-      <li><a href="#projects">作品</a></li>
-      <li><a href="#contact">联系</a></li>
-    </ul>
+  <!-- Floating doodles -->
+  <div class="doodle">☁️</div>
+  <div class="doodle">✨</div>
+  <div class="doodle">🎵</div>
+  <div class="doodle">🌙</div>
+  <div class="doodle">🍃</div>
+  <div class="doodle">⭐</div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-sticker">🐱</div>
+    <h1>欢迎来到<span>我的小世界</span></h1>
+    <p>一个记录生活碎片、快乐灵感和无聊日常的地方。这里有音乐、有美食、有乱七八糟的奇思妙想。</p>
+    <div class="scroll-hint">
+      往下滑
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- Nav -->
+  <nav class="nav-bar">
+    <a href="#about">关于我</a>
+    <a href="#interests">兴趣</a>
+    <a href="#playlist">歌单</a>
+    <a href="#fun">冷知识</a>
+    <a href="#quotes">碎碎念</a>
   </nav>
 
-  <!-- ===== HERO ===== -->
-  <header class="hero" id="home">
-    <span class="hero-label">Creative Developer & Designer</span>
-    <h1>创造<span class="accent">有意义</span>的<br>数字体验</h1>
-    <p class="hero-subtitle">
-      我是一名热爱设计与技术的开发者，专注于构建美观、高性能的 Web 应用。
+  <!-- About -->
+  <section class="section" id="about">
+    <h2 class="section-title reveal"><span class="emoji">👋</span> 关于我</h2>
+    <p class="section-sub reveal">一个普通人的普通自我介绍</p>
+    <div class="about-card reveal">
+      <div class="about-left">
+        <h3>嗨，我是Tliawwf</h3>
+        <p>
+          喜欢在深夜听歌、周末研究新菜谱（虽然经常翻车）、
+          偶尔写点没人看的文字。养了一只叫「汤圆」的猫，
+          它的日常就是睡觉和嫌弃我。
+          <br><br>
+          人生信条：能躺着绝不坐着，但偶尔也会突然充满干劲地去爬山。
+        </p>
+      </div>
+      <div class="about-right">
+        <h4>标签墙</h4>
+        <div class="tag-row">
+          <span class="tag">🍜 美食探索家</span>
+          <span class="tag">🎮 休闲玩家</span>
+          <span class="tag">📷 随手拍</span>
+          <span class="tag">📚 摸鱼读书</span>
+          <span class="tag">🎧 日推依赖症</span>
+          <span class="tag">🐱 猫奴</span>
+        </div>
+        <h4 style="margin-top: 1rem;">目前状态</h4>
+        <div class="tag-row">
+          <span class="tag" style="background: rgba(58,125,110,0.1); color: var(--accent-2); border-color: rgba(58,125,110,0.2);">
+            🟢 心情不错，正在找好吃的
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interests -->
+  <section class="section" id="interests">
+    <h2 class="section-title reveal"><span class="emoji">🎯</span> 我的兴趣</h2>
+    <p class="section-sub reveal">让我快乐的那些小事</p>
+    <div class="interests-grid">
+      <div class="interest-card reveal">
+        <div class="card-emoji">🍳</div>
+        <h3>厨房冒险</h3>
+        <p>经常尝试新菜谱，成功率大约六成。最近在挑战舒芙蕾，已经炸了三次厨房。</p>
+        <div class="card-corner"></div>
+      </div>
+      <div class="interest-card reveal">
+        <div class="card-emoji">🎮</div>
+        <h3>佛系游戏</h3>
+        <p>不追求通关，只享受过程。最爱种田模拟器和解谜游戏，竞技类请绕道。</p>
+        <div class="card-corner"></div>
+      </div>
+      <div class="interest-card reveal">
+        <div class="card-emoji">📚</div>
+        <h3>杂食阅读</h3>
+        <p>从推理小说到哲学随笔都看，最近迷上了科普类。书架上一半没读完，但还在买新的。</p>
+        <div class="card-corner"></div>
+      </div>
+      <div class="interest-card reveal">
+        <div class="card-emoji">🚶</div>
+        <h3>城市漫步</h3>
+        <p>喜欢漫无目的地在城市里走，发现巷子里的小店、墙上的涂鸦和不知名的小公园。</p>
+        <div class="card-corner"></div>
+      </div>
+      <div class="interest-card reveal">
+        <div class="card-emoji">🎵</div>
+        <h3>音乐杂食</h3>
+        <p>听歌没有固定风格，爵士、电子、民谣、后摇来者不拒。日推是我的人生导师。</p>
+        <div class="card-corner"></div>
+      </div>
+      <div class="interest-card reveal">
+        <div class="card-emoji">🐱</div>
+        <h3>撸猫日常</h3>
+        <p>和汤圆斗智斗勇是每天的必修课。它最爱把桌上的东西推下去，然后一脸无辜。</p>
+        <div class="card-corner"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Playlist -->
+  <section class="section" id="playlist">
+    <h2 class="section-title reveal"><span class="emoji">🎧</span> 我的歌单</h2>
+    <p class="section-sub reveal">最近循环播放的歌，按心情排序</p>
+    <div class="playlist">
+      <div class="song reveal">
+        <span class="song-num">01</span>
+        <div class="song-info">
+          <div class="name">爱错</div>
+          <div class="artist">王力宏</div>
+        </div>
+        <span class="song-mood">☀️</span>
+        <div class="song-bar"><span></span><span></span><span></span></div>
+      </div>
+      <div class="song reveal">
+        <span class="song-num">02</span>
+        <div class="song-info">
+          <div class="name">晚风</div>
+          <div class="artist">陈鸿宇</div>
+        </div>
+        <span class="song-mood">🌙</span>
+        <div class="song-bar"><span></span><span></span><span></span></div>
+      </div>
+      <div class="song reveal">
+        <span class="song-num">03</span>
+        <div class="song-info">
+          <div class="name">Intro</div>
+          <div class="artist">The xx</div>
+        </div>
+        <span class="song-mood">🌊</span>
+        <div class="song-bar"><span></span><span></span><span></span></div>
+      </div>
+      <div class="song reveal">
+        <span class="song-num">04</span>
+        <div class="song-info">
+          <div class="name">在春天</div>
+          <div class="artist">房东的猫</div>
+        </div>
+        <span class="song-mood">🌸</span>
+        <div class="song-bar"><span></span><span></span><span></span></div>
+      </div>
+      <div class="song reveal">
+        <span class="song-num">05</span>
+        <div class="song-info">
+          <div class="name">Electric Feel</div>
+          <div class="artist">MGMT</div>
+        </div>
+        <span class="song-mood">⚡</span>
+        <div class="song-bar"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fun facts -->
+  <section class="section" id="fun">
+    <h2 class="section-title reveal"><span class="emoji">🧊</span> 关于我的冷知识</h2>
+    <p class="section-sub reveal">那些你可能不知道（也没必要知道）的事</p>
+    <div class="facts-scroll">
+      <div class="facts-track">
+        <div class="fact-bubble">🍕 吃过 47 种不同口味的披萨</div>
+        <div class="fact-bubble">🌊 最久一次看海看了四个小时</div>
+        <div class="fact-bubble">📖 书架上有 12 本没拆封的书</div>
+        <div class="fact-bubble">🐱 汤圆一岁半，体重保密</div>
+        <div class="fact-bubble">🎬 最爱的电影看了不下 8 遍</div>
+        <div class="fact-bubble">☕ 咖啡续命，一天两杯起步</div>
+        <div class="fact-bubble">🗺️ 去过 13 个城市旅行</div>
+        <div class="fact-bubble">🎮 塞尔达玩了 200 小时还没通关</div>
+        <!-- Duplicate for seamless loop -->
+        <div class="fact-bubble">🍕 吃过 47 种不同口味的披萨</div>
+        <div class="fact-bubble">🌊 最久一次看海看了四个小时</div>
+        <div class="fact-bubble">📖 书架上有 12 本没拆封的书</div>
+        <div class="fact-bubble">🐱 汤圆一岁半，体重保密</div>
+        <div class="fact-bubble">🎬 最爱的电影看了不下 8 遍</div>
+        <div class="fact-bubble">☕ 咖啡续命，一天两杯起步</div>
+        <div class="fact-bubble">🗺️ 去过 13 个城市旅行</div>
+        <div class="fact-bubble">🎮 塞尔达玩了 200 小时还没通关</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quotes -->
+  <section class="section" id="quotes">
+    <h2 class="section-title reveal"><span class="emoji">💭</span> 碎碎念</h2>
+    <p class="section-sub reveal">偶尔记录下来的生活感悟</p>
+    <div class="quote-wall">
+      <div class="quote reveal">
+        <p>今天天气很好，适合什么都不做。于是我认真地什么都不做了一整天，结果竟然有点累。</p>
+        <span class="quote-author">— 周一随笔</span>
+      </div>
+      <div class="quote reveal">
+        <p>做饭最重要的调料是「差不多就行了」。精确到克的菜谱不适用于我这种随性派。</p>
+        <span class="quote-author">— 厨房心得</span>
+      </div>
+      <div class="quote reveal">
+        <p>汤圆今天又用尾巴扫了我的杯子。我觉得它是故意的，但我没有证据。</p>
+        <span class="quote-author">— 猫咪观察日记</span>
+      </div>
+      <div class="quote reveal">
+        <p>凌晨两点突然想通了一个困扰我很久的问题，第二天起来全忘了。人生就是这样。</p>
+        <span class="quote-author">— 深夜顿悟</span>
+      </div>
+      <div class="quote reveal">
+        <p>下雨天和棉被是世界上最好的组合，没有之一。如果再加上一杯热可可，那就是天堂。</p>
+        <span class="quote-author">— 雨天宣言</span>
+      </div>
+      <div class="quote reveal">
+        <p>路过的那棵银杏树黄了，拍照的时候有个老奶奶也停下来拍，我们相视一笑。秋天真好。</p>
+        <span class="quote-author">— 秋日偶记</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-hearts">🍪 🐱 ☕</div>
+    <p>
+      用爱和咖啡搭建的小世界<br>
+      © 2025 我的小世界 · 每一天都值得记录
     </p>
-    <div class="hero-scroll">Scroll</div>
-  </header>
-
-  <!-- ===== 关于 ===== -->
-  <section id="about">
-    <span class="section-number">01</span>
-    <div class="section-header reveal">
-      <h2>关于我</h2>
-      <span class="tag">About</span>
-    </div>
-    <div class="about-grid">
-      <div class="about-avatar reveal">
-        <!-- 替换为你的照片: <img src="assets/avatar.jpg" alt="头像"> -->
-        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-      </div>
-      <div class="about-text reveal">
-        <p>
-          你好！我叫[你的名字]，是一名来自[城市]的全栈开发者。
-        </p>
-        <p>
-          我热爱用代码构建美好的事物。从大学时期写下第一行 HTML 开始，
-          我就迷上了将创意变为现实的过程。过去几年里，我参与了多个产品项目，
-          涵盖前端开发、UI 设计和性能优化。
-        </p>
-        <p>
-          工作之外，我喜欢摄影、阅读和探索新技术。我相信好的设计是看不见的——
-          它让一切变得自然而然。
-        </p>
-        <div class="about-stats">
-          <div class="stat-item">
-            <div class="stat-number">3+</div>
-            <div class="stat-label">年经验</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">20+</div>
-            <div class="stat-label">完成项目</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">10+</div>
-            <div class="stat-label">合作客户</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 技能 ===== -->
-  <section id="skills">
-    <span class="section-number">02</span>
-    <div class="section-header reveal">
-      <h2>技能栈</h2>
-      <span class="tag">Skills</span>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-card reveal">
-        <div class="skill-icon">⟨/⟩</div>
-        <h3>前端开发</h3>
-        <p>构建响应式、高性能的用户界面，注重交互细节与无障碍体验。</p>
-        <div class="skill-tags">
-          <span>React</span>
-          <span>Vue</span>
-          <span>TypeScript</span>
-          <span>Tailwind</span>
-        </div>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-icon">⚙</div>
-        <h3>后端开发</h3>
-        <p>设计 RESTful API 与微服务架构，处理数据建模与业务逻辑。</p>
-        <div class="skill-tags">
-          <span>Node.js</span>
-          <span>Python</span>
-          <span>PostgreSQL</span>
-          <span>Docker</span>
-        </div>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-icon">◆</div>
-        <h3>UI/UX 设计</h3>
-        <p>从用户研究到高保真原型，打造直觉化的产品体验。</p>
-        <div class="skill-tags">
-          <span>Figma</span>
-          <span>原型设计</span>
-          <span>设计系统</span>
-        </div>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-icon">▲</div>
-        <h3>DevOps</h3>
-        <p>自动化部署流水线，保障应用稳定运行与持续交付。</p>
-        <div class="skill-tags">
-          <span>Git</span>
-          <span>CI/CD</span>
-          <span>AWS</span>
-          <span>Vercel</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 项目 ===== -->
-  <section id="projects">
-    <span class="section-number">03</span>
-    <div class="section-header reveal">
-      <h2>精选作品</h2>
-      <span class="tag">Projects</span>
-    </div>
-    <div class="projects-list reveal">
-      <div class="project-item">
-        <span class="project-index">01</span>
-        <div class="project-info">
-          <h3>项目名称 Alpha</h3>
-          <p>一个现代化的 SaaS 仪表盘，支持实时数据分析与可视化</p>
-        </div>
-        <span class="project-arrow">→</span>
-      </div>
-      <div class="project-item">
-        <span class="project-index">02</span>
-        <div class="project-info">
-          <h3>项目名称 Beta</h3>
-          <p>面向创作者的内容管理平台，支持 Markdown 编辑与多端同步</p>
-        </div>
-        <span class="project-arrow">→</span>
-      </div>
-      <div class="project-item">
-        <span class="project-index">03</span>
-        <div class="project-info">
-          <h3>项目名称 Gamma</h3>
-          <p>移动端优先的电商小程序，集成支付与智能推荐系统</p>
-        </div>
-        <span class="project-arrow">→</span>
-      </div>
-      <div class="project-item">
-        <span class="project-index">04</span>
-        <div class="project-info">
-          <h3>项目名称 Delta</h3>
-          <p>开源组件库，为开发者提供 50+ 可定制的 UI 组件</p>
-        </div>
-        <span class="project-arrow">→</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 联系 ===== -->
-  <section id="contact">
-    <span class="section-number">04</span>
-    <div class="section-header reveal">
-      <h2>取得联系</h2>
-      <span class="tag">Contact</span>
-    </div>
-    <div class="contact-layout">
-      <div class="contact-text reveal">
-        <h3>有项目想法？<br>一起聊聊。</h3>
-        <p>
-          无论是合作机会、工作邀约还是单纯的技术交流，
-          我都很乐意收到你的消息。
-        </p>
-      </div>
-      <div class="contact-links reveal">
-        <a href="mailto:vnli@outlook.com" class="contact-link">
-          <span class="link-icon">✉</span>
-          <div>
-            <div class="link-label">Email</div>
-            <div class="link-value">vnli@outlook.com</div>
-          </div>
-        </a>
-        <a href="https://github.com/Tliawwf" class="contact-link" target="_blank">
-          <span class="link-icon">⌥</span>
-          <div>
-            <div class="link-label">GitHub</div>
-            <div class="link-value">github.com/Tliawwf</div>
-          </div>
-        </a>
-        <a href="https://twitter.com/yourusername" class="contact-link" target="_blank">
-          <span class="link-icon">𝕏</span>
-          <div>
-            <div class="link-label">Twitter / X</div>
-            <div class="link-value">@yourusername</div>
-          </div>
-        </a>
-        <a href="https://linkedin.com/in/yourusername" class="contact-link" target="_blank">
-          <span class="link-icon">in</span>
-          <div>
-            <div class="link-label">LinkedIn</div>
-            <div class="link-value">linkedin.com/in/yourusername</div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 页脚 ===== -->
-  <footer>
-    <p>Designed & Built by 你的名字 · 2025</p>
   </footer>
 
-  <!-- ===== JavaScript ===== -->
+  <!-- Scroll reveal script -->
   <script>
-    // 滚动显示动画
+    const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          // 同级元素添加交错延迟
-          const siblings = entry.target.parentElement.querySelectorAll('.reveal');
-          const index = Array.from(siblings).indexOf(entry.target);
-          entry.target.style.transitionDelay = `${index * 0.1}s`;
-          entry.target.classList.add('visible');
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
           observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.15 });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    reveals.forEach(el => observer.observe(el));
 
-    // 导航栏滚动隐藏
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      const nav = document.querySelector('nav');
-      const current = window.pageYOffset;
-      if (current > lastScroll && current > 100) {
-        nav.style.transform = 'translateY(-100%)';
-      } else {
-        nav.style.transform = 'translateY(0)';
-      }
-      lastScroll = current;
-    });
-
-    // 平滑滚动
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Nav active state
+    const navLinks = document.querySelectorAll('.nav-bar a');
+    const sections = document.querySelectorAll('.section');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(link => {
+            link.style.color = link.getAttribute('href') === '#' + id
+              ? 'var(--accent)'
+              : '';
+            link.style.background = link.getAttribute('href') === '#' + id
+              ? 'rgba(232, 99, 74, 0.08)'
+              : '';
+          });
         }
       });
-    });
-  </script>
+    }, { threshold: 0.3 });
 
+    sections.forEach(s => { if (s.id) navObserver.observe(s); });
+  </script>
 </body>
 </html>
