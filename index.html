@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的小世界</title>
+  <title>Tliawwf的小世界</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Zhi+Mang+Xing&display=swap"
@@ -1001,6 +1001,141 @@
       animation-delay: 0.3s;
     }
 
+    /* --- Song play button --- */
+    .song-play-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .song-play-btn:hover {
+      background: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .song-play-btn:hover .sp-icon-play,
+    .song-play-btn:hover .sp-icon-pause {
+      color: #fff;
+    }
+
+    .song-play-btn .sp-icon-play,
+    .song-play-btn .sp-icon-pause {
+      width: 14px;
+      height: 14px;
+      color: var(--accent);
+      position: absolute;
+      transition: all 0.25s ease;
+    }
+
+    .song-play-btn .sp-icon-play {
+      opacity: 1;
+      transform: scale(1);
+      /* 播放图标微偏右，视觉居中 */
+      margin-left: 2px;
+    }
+
+    .song-play-btn .sp-icon-pause {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
+    /* 正在播放的歌曲按钮状态 */
+    .song-play-btn.is-active .sp-icon-play {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
+    .song-play-btn.is-active .sp-icon-pause {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .song-play-btn.is-active {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .song-play-btn.is-active .sp-icon-play,
+    .song-play-btn.is-active .sp-icon-pause {
+      color: #fff;
+    }
+
+    /* --- Playlist divider --- */
+    .playlist-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 2rem;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(44, 36, 32, 0.1), transparent);
+    }
+
+    .divider-text {
+      font-family: 'Ma Shan Zheng', cursive;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* 正在播放的歌曲行高亮 */
+    .song.is-now-playing {
+      background: rgba(232, 99, 74, 0.06);
+      border: 1.5px solid rgba(232, 99, 74, 0.15);
+    }
+
+    .song.is-now-playing .song-bar span {
+      animation-play-state: running;
+    }
+
+    /* --- Playlist divider --- */
+    .playlist-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 2rem;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(44, 36, 32, 0.1), transparent);
+    }
+
+    .divider-text {
+      font-family: 'Ma Shan Zheng', cursive;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+
+    /* 移动端适配 */
+    @media (max-width: 640px) {
+      .song-play-btn {
+        width: 30px;
+        height: 30px;
+      }
+
+      .song-play-btn .sp-icon-play,
+      .song-play-btn .sp-icon-pause {
+        width: 11px;
+        height: 11px;
+      }
+    }
+
     @keyframes eq {
       from {
         height: 20%;
@@ -1190,7 +1325,353 @@
         height: 18px;
       }
     }
+
+    /* ==================== */
+    /*   MUSIC SUBMISSION   */
+    /* ==================== */
+    .submission-card {
+      background: var(--paper);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 24px var(--shadow);
+      overflow: hidden;
+    }
+
+    .submission-form {
+      padding: 2.5rem;
+      border-bottom: 1.5px solid rgba(44, 36, 32, 0.05);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .form-group .required {
+      color: var(--accent);
+    }
+
+    .form-group .optional {
+      font-weight: 400;
+      opacity: 0.6;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 0.92rem;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid rgba(44, 36, 32, 0.1);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: all 0.25s ease;
+      resize: none;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(232, 99, 74, 0.1);
+      background: #fff;
+    }
+
+    .char-count {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: right;
+      opacity: 0.6;
+      margin-top: -0.1rem;
+    }
+
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+      padding: 0.7rem 1.8rem;
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 0.92rem;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(232, 99, 74, 0.25);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 24px rgba(232, 99, 74, 0.35);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .submit-btn.sending {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    /* Submission list */
+    .submission-list {
+      padding: 1.5rem 2.5rem 2rem;
+    }
+
+    .submission-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .submission-list-header h4 {
+      font-family: 'Ma Shan Zheng', cursive;
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+
+    .submission-count {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: rgba(44, 36, 32, 0.05);
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+    }
+
+    .submission-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      max-height: 360px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(44, 36, 32, 0.12) transparent;
+    }
+
+    .submission-items::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .submission-items::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .submission-items::-webkit-scrollbar-thumb {
+      background: rgba(44, 36, 32, 0.12);
+      border-radius: 4px;
+    }
+
+    .submission-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      padding: 1rem 1.2rem;
+      background: var(--surface);
+      border-radius: 14px;
+      border: 1px solid rgba(44, 36, 32, 0.04);
+      animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .submission-item .item-emoji {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    .submission-item .item-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .submission-item .item-song {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+    }
+
+    .submission-item .item-artist {
+      font-size: 0.8rem;
+      color: var(--accent-2);
+      margin-bottom: 0.25rem;
+    }
+
+    .submission-item .item-reason {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    .submission-item .item-time {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    .submission-empty {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .submission-empty span {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.5rem;
+      opacity: 0.4;
+    }
+
+    .submission-empty p {
+      font-size: 0.88rem;
+      opacity: 0.6;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 6rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text);
+      color: var(--bg);
+      padding: 0.75rem 1.5rem;
+      border-radius: 100px;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 8px 32px rgba(44, 36, 32, 0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 9000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast-icon {
+      width: 22px;
+      height: 22px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* Input shake on error */
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20% {
+        transform: translateX(-6px);
+      }
+
+      40% {
+        transform: translateX(6px);
+      }
+
+      60% {
+        transform: translateX(-4px);
+      }
+
+      80% {
+        transform: translateX(4px);
+      }
+    }
+
+    .form-group input.error,
+    .form-group textarea.error {
+      border-color: var(--accent);
+      animation: shake 0.4s ease;
+      box-shadow: 0 0 0 3px rgba(232, 99, 74, 0.15);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .submission-form {
+        padding: 1.8rem;
+      }
+
+      .submission-list {
+        padding: 1.2rem 1.8rem 1.5rem;
+      }
+
+      .submission-item .item-time {
+        display: none;
+      }
+    }
   </style>
+  <link rel="preload" href="assets/images/avatar1.jpg" as="image">
+  <link rel="preload" href="assets/images/avatar2.jpg" as="image">
+  <link rel="preload" href="assets/images/avatar3.jpg" as="image">
+  <link rel="preload" href="assets/images/avatar4.jpg" as="image">
+  <link rel="preload" href="assets/images/avatar5.jpg" as="image">
+  <link rel="preload" href="assets/images/avatar6.jpg" as="image">
+  <link rel="preload" href="assets/images/avatar7.jpg" as="image">
 </head>
 
 <body>
@@ -1206,15 +1687,16 @@
   <!-- Hero -->
   <section class="hero">
     <div class="hero-sticker" id="heroSticker">
-      <img src="assets/images/avatar1.png" alt="头像" class="hero-img" id="heroImg">
+      <img src="assets/images/avatar1.jpg" alt="头像" class="hero-img" id="heroImg">
     </div>
 
-    <h1>欢迎来到<span>我的小世界</span></h1>
-    <p>一个记录生活碎片、快乐灵感和无聊日常的地方。这里有音乐、有美食、有乱七八糟的奇思妙想。</p>
-    <div class="scroll-hint">
-      往下滑
-      <div class="arrow"></div>
-    </div>
+    <h1>欢迎来到<h1><span>Tliawwf</span>
+        <h1>的小世界</h1>
+        <p>一个记录生活碎片、快乐灵感和无聊日常的地方。这里有音乐、有美食、有乱七八糟的奇思妙想。</p>
+        <div class="scroll-hint">
+          往下滑
+          <div class="arrow"></div>
+        </div>
   </section>
 
   <!-- Nav -->
@@ -1232,7 +1714,7 @@
     <p class="section-sub reveal">一个普通人的普通自我介绍</p>
     <div class="about-card reveal">
       <div class="about-left">
-        <h3>嗨，我是小明（随便起的）</h3>
+        <h3>嗨，我是Tliawwf</h3>
         <p>
           喜欢在深夜听歌、周末研究新菜谱（虽然经常翻车）、
           偶尔写点没人看的文字。养了一只叫「汤圆」的猫，
@@ -1308,54 +1790,155 @@
 
   <!-- Playlist -->
   <section class="section" id="playlist">
-    <h2 class="section-title reveal"><span class="emoji">🎧</span> 我的歌单</h2>
+    <h2 class="section-title reveal"><span class="emoji">🎧</span> Tliawwf的歌单</h2>
     <p class="section-sub reveal">最近循环播放的歌，按心情排序</p>
     <div class="playlist">
-      <div class="song reveal">
+      <div class="song reveal" data-src="assets/Music/Pianoboy高至豪-The+Truth+That+You+Leave.mp3">
+        <button class="song-play-btn" title="播放此歌曲">
+          <svg class="sp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6,3 20,12 6,21" />
+          </svg>
+          <svg class="sp-icon-pause" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="5" y="3" width="4" height="18" rx="1" />
+            <rect x="15" y="3" width="4" height="18" rx="1" />
+          </svg>
+        </button>
         <span class="song-num">01</span>
         <div class="song-info">
-          <div class="name">Sunday Morning</div>
-          <div class="artist">The Velvet Underground</div>
+          <div class="name">The Truth That You Leave</div>
+          <div class="artist">Pianoboy高至豪</div>
         </div>
         <span class="song-mood">☀️</span>
         <div class="song-bar"><span></span><span></span><span></span></div>
       </div>
-      <div class="song reveal">
+      <div class="song reveal" data-src="assets/Music/陈奕迅-富士山下.mp3">
+        <button class="song-play-btn" title="播放此歌曲">
+          <svg class="sp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6,3 20,12 6,21" />
+          </svg>
+          <svg class="sp-icon-pause" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="5" y="3" width="4" height="18" rx="1" />
+            <rect x="15" y="3" width="4" height="18" rx="1" />
+          </svg>
+        </button>
         <span class="song-num">02</span>
         <div class="song-info">
-          <div class="name">晚风</div>
-          <div class="artist">陈鸿宇</div>
+          <div class="name">富士山下</div>
+          <div class="artist">陈奕迅</div>
         </div>
         <span class="song-mood">🌙</span>
         <div class="song-bar"><span></span><span></span><span></span></div>
       </div>
-      <div class="song reveal">
+      <div class="song reveal" data-src="assets/Music/郭顶-我们俩.mp3">
+        <button class="song-play-btn" title="播放此歌曲">
+          <svg class="sp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6,3 20,12 6,21" />
+          </svg>
+          <svg class="sp-icon-pause" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="5" y="3" width="4" height="18" rx="1" />
+            <rect x="15" y="3" width="4" height="18" rx="1" />
+          </svg>
+        </button>
         <span class="song-num">03</span>
         <div class="song-info">
-          <div class="name">Intro</div>
-          <div class="artist">The xx</div>
+          <div class="name">我们俩</div>
+          <div class="artist">郭顶</div>
         </div>
         <span class="song-mood">🌊</span>
         <div class="song-bar"><span></span><span></span><span></span></div>
       </div>
-      <div class="song reveal">
+      <div class="song reveal" data-src="assets/Music/王力宏-我们的歌.mp3">
+        <button class="song-play-btn" title="播放此歌曲">
+          <svg class="sp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6,3 20,12 6,21" />
+          </svg>
+          <svg class="sp-icon-pause" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="5" y="3" width="4" height="18" rx="1" />
+            <rect x="15" y="3" width="4" height="18" rx="1" />
+          </svg>
+        </button>
         <span class="song-num">04</span>
         <div class="song-info">
-          <div class="name">在春天</div>
-          <div class="artist">房东的猫</div>
+          <div class="name">我们的歌</div>
+          <div class="artist">王力宏</div>
         </div>
         <span class="song-mood">🌸</span>
         <div class="song-bar"><span></span><span></span><span></span></div>
       </div>
-      <div class="song reveal">
+      <div class="song reveal" data-src="assets/Music/张信哲-过火.mp3">
+        <button class="song-play-btn" title="播放此歌曲">
+          <svg class="sp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6,3 20,12 6,21" />
+          </svg>
+          <svg class="sp-icon-pause" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="5" y="3" width="4" height="18" rx="1" />
+            <rect x="15" y="3" width="4" height="18" rx="1" />
+          </svg>
+        </button>
         <span class="song-num">05</span>
         <div class="song-info">
-          <div class="name">Electric Feel</div>
-          <div class="artist">MGMT</div>
+          <div class="name">过火</div>
+          <div class="artist">张信哲</div>
         </div>
         <span class="song-mood">⚡</span>
         <div class="song-bar"><span></span><span></span><span></span></div>
       </div>
+    </div>
+
+    <!-- ========== 音乐投稿（合并到歌单板块内） ========== -->
+    <div class="playlist-divider reveal">
+      <span class="divider-line"></span>
+      <span class="divider-text">💌 把你喜欢的歌推荐给我</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <div class="submission-card reveal">
+      <div class="submission-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="songInput">歌曲名 <span class="required">*</span></label>
+            <input type="text" id="songInput" placeholder="比如：晴天" maxlength="60">
+          </div>
+          <div class="form-group">
+            <label for="artistInput">歌手</label>
+            <input type="text" id="artistInput" placeholder="比如：周杰伦" maxlength="40">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="reasonInput">想说的话 <span class="optional">(选填)</span></label>
+          <textarea id="reasonInput" placeholder="为什么推荐这首歌？或者随便说点什么…" rows="3" maxlength="200"></textarea>
+          <div class="char-count"><span id="charCount">0</span>/200</div>
+        </div>
+        <button class="submit-btn" id="submitBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" width="18" height="18">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          投稿推荐
+        </button>
+      </div>
+
+      <!-- 已投稿列表 -->
+      <div class="submission-list" id="submissionList">
+        <div class="submission-list-header">
+          <h4>📝 大家的推荐</h4>
+          <span class="submission-count" id="submissionCount">0 条投稿</span>
+        </div>
+        <div class="submission-items" id="submissionItems">
+          <!-- 动态插入 -->
+        </div>
+        <div class="submission-empty" id="submissionEmpty">
+          <span>🎵</span>
+          <p>还没有人投稿，来做第一个推荐者吧！</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div class="toast" id="toast">
+      <span class="toast-icon">✓</span>
+      <span class="toast-text">投稿成功！谢谢你的推荐</span>
     </div>
   </section>
 
@@ -1422,7 +2005,7 @@
     <div class="footer-hearts">🍪 🐱 ☕</div>
     <p>
       用爱和咖啡搭建的小世界<br>
-      © 2025 我的小世界 · 每一天都值得记录
+      © 2026 Tliawwf的小世界 · 每一天都值得记录
     </p>
   </footer>
 
@@ -1529,8 +2112,8 @@
 
     let isPlaying = false;
     let userInteracted = false;
-    let initialVolume = 10; // 初始音量为10%音量
-    let lastVolume = 10;   // 记录静音前的音量
+    let initialVolume = 50; // 初始音量为50%音量
+    let lastVolume = 50;   // 记录静音前的音量
 
     // ========== 初始化音量 ==========
     function setVolume(val) {
@@ -1626,13 +2209,13 @@
     });
     /* --- Hero 图片切换 --- */
     const heroImages = [
-      'assets/images/avatar1.png',
-      'assets/images/avatar2.png',
-      'assets/images/avatar3.png',
-      'assets/images/avatar4.png',
-      'assets/images/avatar5.png',
-      'assets/images/avatar6.png',
-      'assets/images/avatar7.png',
+      'assets/images/avatar1.jpg',
+      'assets/images/avatar2.jpg',
+      'assets/images/avatar3.jpg',
+      'assets/images/avatar4.jpg',
+      'assets/images/avatar5.jpg',
+      'assets/images/avatar6.jpg',
+      'assets/images/avatar7.jpg',
     ];
     let currentImgIndex = 0;
 
@@ -1652,7 +2235,273 @@
         heroImg.classList.remove('switching');
       }, 400);
     });
+    /* --- 歌单播放功能（复用背景音乐控制组件） --- */
+    const songElements = document.querySelectorAll('.song[data-src]');
+    let currentPlayingSong = null;
 
+    songElements.forEach(songEl => {
+      const playBtn = songEl.querySelector('.song-play-btn');
+      const songSrc = songEl.dataset.src;
+
+      playBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        // 点击的是当前正在播放的同一首歌 → 切换播放/暂停
+        if (currentPlayingSong === songEl && isPlaying) {
+          audio.pause();
+          return;
+        }
+
+        // 点击的是当前正在播放的同一首歌（已暂停）→ 继续播放
+        if (currentPlayingSong === songEl && !isPlaying) {
+          audio.play().catch(() => { });
+          return;
+        }
+
+        // 切换到新歌曲
+        // 清除上一首的高亮状态
+        if (currentPlayingSong) {
+          currentPlayingSong.classList.remove('is-now-playing');
+          const prevBtn = currentPlayingSong.querySelector('.song-play-btn');
+          if (prevBtn) prevBtn.classList.remove('is-active');
+        }
+
+        // 设置新的音频源
+        audio.src = songSrc;
+        audio.load();
+
+        // 保持当前音量设置
+        audio.volume = parseInt(volumeSlider.value) / 100;
+
+        // 播放
+        audio.play().then(() => {
+          userInteracted = true;
+        }).catch(() => { });
+
+        // 更新高亮状态
+        songEl.classList.add('is-now-playing');
+        playBtn.classList.add('is-active');
+        currentPlayingSong = songEl;
+
+        // 更新音乐播放器提示文字
+        const songName = songEl.querySelector('.name').textContent;
+        const tooltip = document.querySelector('.music-tooltip .song-name');
+        if (tooltip) tooltip.textContent = songName;
+      });
+    });
+
+    // 监听音频播放事件，同步歌单按钮状态
+    audio.addEventListener('play', () => {
+      if (currentPlayingSong) {
+        const btn = currentPlayingSong.querySelector('.song-play-btn');
+        if (btn) btn.classList.add('is-active');
+      }
+    });
+
+    audio.addEventListener('pause', () => {
+      if (currentPlayingSong) {
+        const btn = currentPlayingSong.querySelector('.song-play-btn');
+        if (btn) btn.classList.remove('is-active');
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      // 当前歌曲播放结束后，清除高亮
+      if (currentPlayingSong) {
+        currentPlayingSong.classList.remove('is-now-playing');
+        const btn = currentPlayingSong.querySelector('.song-play-btn');
+        if (btn) btn.classList.remove('is-active');
+        currentPlayingSong = null;
+      }
+    });
+    /* ========================= */
+    /*   MUSIC SUBMISSION LOGIC  */
+    /*     （宝塔服务器版）        */
+    /* ========================= */
+    const songInput = document.getElementById('songInput');
+    const artistInput = document.getElementById('artistInput');
+    const reasonInput = document.getElementById('reasonInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const submissionItems = document.getElementById('submissionItems');
+    const submissionEmpty = document.getElementById('submissionEmpty');
+    const submissionCount = document.getElementById('submissionCount');
+    const charCount = document.getElementById('charCount');
+    const toast = document.getElementById('toast');
+
+    const API_BASE = '/api.php';
+    const emojis = ['🎵', '🎶', '🎸', '🎹', '🎷', '🎺', '🥁', '🎻', '🎤', '🎧', '💿', '🪗', '🪘', '🎼'];
+
+    // ========== 工具函数 ==========
+    function escapeHTML(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function hashCode(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0;
+      }
+      return hash;
+    }
+
+    function showToast(msg) {
+      toast.querySelector('.toast-text').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ========== 渲染单条 ==========
+    function renderSubmission(item, index, prepend) {
+      const el = document.createElement('div');
+      el.className = 'submission-item';
+      el.style.animationDelay = (prepend ? 0 : index * 0.06) + 's';
+
+      const emoji = emojis[Math.abs(hashCode(item.song + (item.artist || ''))) % emojis.length];
+
+      el.innerHTML = `
+    <div class="item-emoji">${emoji}</div>
+    <div class="item-content">
+      <div class="item-song">${escapeHTML(item.song)}</div>
+      ${item.artist ? `<div class="item-artist">${escapeHTML(item.artist)}</div>` : ''}
+      ${item.reason ? `<div class="item-reason">${escapeHTML(item.reason)}</div>` : ''}
+    </div>
+    <div class="item-time">${item.time}</div>
+  `;
+
+      prepend ? submissionItems.prepend(el) : submissionItems.appendChild(el);
+    }
+
+    // ========== 从服务器加载 ==========
+    async function loadSubmissions() {
+      try {
+        const res = await fetch(API_BASE);
+        const json = await res.json();
+
+        submissionItems.innerHTML = '';
+
+        if (json.success && json.data.length > 0) {
+          submissionEmpty.style.display = 'none';
+          submissionCount.textContent = json.count + ' 条投稿';
+          json.data.forEach((item, i) => renderSubmission(item, i, false));
+        } else {
+          submissionEmpty.style.display = 'block';
+          submissionCount.textContent = '0 条投稿';
+        }
+      } catch (err) {
+        console.error('加载失败:', err);
+        submissionEmpty.style.display = 'block';
+        submissionEmpty.querySelector('p').textContent = '加载失败，请刷新重试';
+      }
+    }
+
+    // ========== 字数统计 ==========
+    reasonInput.addEventListener('input', () => {
+      charCount.textContent = reasonInput.value.length;
+    });
+
+    // ========== 提交 ==========
+    submitBtn.addEventListener('click', async () => {
+      const song = songInput.value.trim();
+      const artist = artistInput.value.trim();
+      const reason = reasonInput.value.trim();
+
+      songInput.classList.remove('error');
+
+      if (!song) {
+        songInput.classList.add('error');
+        songInput.focus();
+        setTimeout(() => songInput.classList.remove('error'), 500);
+        showToast('请填写歌曲名哦');
+        return;
+      }
+
+      submitBtn.classList.add('sending');
+      submitBtn.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+      <circle cx="12" cy="12" r="10" stroke-dasharray="31" stroke-dashoffset="10">
+        <animateTransform attributeName="transform" type="rotate"
+          from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+    发送中…
+  `;
+
+      try {
+        const res = await fetch(API_BASE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ song, artist, reason })
+        });
+
+        const json = await res.json();
+
+        if (json.success) {
+          if (submissionEmpty.style.display !== 'none') {
+            submissionEmpty.style.display = 'none';
+          }
+          renderSubmission(json.data, 0, true);
+
+          const currentCount = submissionItems.querySelectorAll('.submission-item').length;
+          submissionCount.textContent = currentCount + ' 条投稿';
+
+          songInput.value = '';
+          artistInput.value = '';
+          reasonInput.value = '';
+          charCount.textContent = '0';
+
+          showToast('投稿成功！谢谢你的推荐');
+
+          submitBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        已发送
+      `;
+          setTimeout(() => {
+            submitBtn.classList.remove('sending');
+            submitBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          投稿推荐
+        `;
+          }, 1500);
+
+        } else {
+          showToast(json.message || '提交失败');
+          resetBtn();
+        }
+      } catch (err) {
+        console.error('提交失败:', err);
+        showToast('网络错误，请稍后重试');
+        resetBtn();
+      }
+    });
+
+    function resetBtn() {
+      submitBtn.classList.remove('sending');
+      submitBtn.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+      <line x1="22" y1="2" x2="11" y2="13"></line>
+      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+    </svg>
+    投稿推荐
+  `;
+    }
+
+    // Enter 提交
+    songInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
+    artistInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
+
+    // ========== 页面加载 ==========
+    loadSubmissions();
   </script>
 </body>
 
